@@ -1,10 +1,13 @@
 package com.example.thicketloader.enumerate;
 
 public enum Status {
-    WAIT,// 예매 대기
+    FAILED,// 예매 실패
 
-    RESERVE, // 예매 완료
+    RESERVED, // 예매 완료
 
-    PAY //결제완료
+    REQUESTED,
+
+    PAYED //결제완료
+
 
 }

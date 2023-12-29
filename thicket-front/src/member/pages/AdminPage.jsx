@@ -2,11 +2,11 @@ import Menu from "../component/Menu";
 import React, {useState} from "react";
 import {AdminAllStageList} from "../component/AdminAllStageList";
 import AdminCreateShow from "../component/AdminCreateShow";
-import { AdminBeforeList } from "../component/AdminBeforeList";
+import {AdminBeforeList} from "../component/AdminBeforeList";
 import {AdminOngoingList} from "../component/AdminOngoingList";
 import {AdminEndedList} from "../component/AdminEndedList";
 import AdminEditShow from "../component/AdminEditShow";
-import { Wrapper, MarginTop, Container, ASide, Main } from "../../assets/css/setting/MainStyleCSS";
+import {ASide, Container, Main, MarginTop, Wrapper} from "../../assets/css/setting/MainStyleCSS";
 
 const AdminPage = () => {
     const [content, setContent] = useState("all");

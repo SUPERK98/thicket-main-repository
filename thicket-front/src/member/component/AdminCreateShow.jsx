@@ -92,7 +92,7 @@ const AdminCreateShow = () => {
     // 일별 시작 시간 일정추가 버튼 (유효성 검사 포함)
     const handleAddTimeButtonClick = () => {
         if (!startDate || !endDate || startDate === 'Invalid Date' || endDate === 'Invalid Date') {
-            alert('전체 시작일과 전체 종료일을 먼저 선택하세요.');
+            alert('개막일과 폐막일을 먼저 선택하세요.');
             return;
         }
         const newRoot = document.createElement('div'); // 새로운 루트 엘리먼트 생성
@@ -214,8 +214,9 @@ const AdminCreateShow = () => {
             urls.forEach((url, index) => {
                 if (index === 0) {
                     posterImageLink = url;
+                } else {
+                    detailImageLink.push(url);
                 }
-                detailImageLink.push(url);
             });
         })
         .then(() => {
@@ -290,6 +291,7 @@ const AdminCreateShow = () => {
             });
             return cleanNode.reduce((result, currentObj) => Object.assign(result,currentObj));
         });
+        console.log(showId)
         fetch("/thicket-show/chairs", {
             method: 'POST',
             body: JSON.stringify({
@@ -313,7 +315,7 @@ const AdminCreateShow = () => {
                     <tr>
                         <Th>제목</Th>
                         <Td>
-                            <Input placeholder="  제목을 입력하세요."
+                            <Input placeholder="제목을 입력하세요."
                                    onChange={(e) => setShowTitle(e.target.value)}
                                    disabled={hasShowId}/>
                         </Td>
@@ -321,13 +323,13 @@ const AdminCreateShow = () => {
                     <tr>
                         <Th>공연장 주소</Th>
                         <Td>
-                            <Input placeholder="  주소를 입력하세요."
+                            <Input placeholder="공연장을 입력하세요."
                                    onChange={(e) => setShowAddress(e.target.value)}
                                    disabled={hasShowId}/>
                         </Td>
                     </tr>
                     <tr>
-                        <Th>전체 시작일</Th>
+                        <Th>개 막 일</Th>
                         <Td>
                             <RelativeDiv>
                                 <StyledDatePicker
@@ -346,12 +348,12 @@ const AdminCreateShow = () => {
                                 <CalenderDiv onClick={() => startDatePickerRef.current && startDatePickerRef.current.setOpen(true)}>
                                     <CalendarSVG />
                                 </CalenderDiv>
-                                <P>하단의 일정을 등록한 상태에서는 달력이 비활성화 됩니다.</P>
+                                <P>하단의 일정을 등록한 상태에서는 달력이 비활성화됩니다.</P>
                             </RelativeDiv>
                         </Td>
                     </tr>
                     <tr>
-                        <Th>전체 종료일</Th>
+                        <Th>폐 막 일</Th>
                         <Td>
                             <RelativeDiv>
                                 <StyledDatePicker
@@ -371,7 +373,7 @@ const AdminCreateShow = () => {
                                     <CalendarSVG />
                                 </CalenderDiv>
                                 <P>
-                                    수정이 필요할 경우 일정을 전부 삭제해주세요.
+                                    수정이 필요할 경우 일정을 전부 삭제해 주세요.
                                     <Button onClick={handleRemoveAllTimeSlots}>일정 전체 삭제</Button>
                                 </P>
                             </RelativeDiv>
@@ -388,14 +390,14 @@ const AdminCreateShow = () => {
                                     dateFormat="yyyy년 MM월 dd일"
                                     placeholderText="  날짜를 선택하세요."
                                     locale="ko"
-                                    maxDate={startDate} // 시작일 이전에서만 선택 가능
+                                    maxDate={startDate} // 시작일 이전만 선택 가능
                                     disabled={hasStartDate || hasShowId}
-                                    // 시작 날짜를 골라야지 예약 시작 날짜를 고를 수 있음.
+                                    // 시작 날짜를 골라야 예약 시작 날짜를 고를 수 있음.
                                 />
                                 <CalenderDiv onClick={() => ticketOpenPickerRef.current && ticketOpenPickerRef.current.setOpen(true)}>
                                     <CalendarSVG />
                                 </CalenderDiv>
-                                <P> 전체 공연 종료일을 먼저 선택해주세요.</P>
+                                <P> 전체 공연 종료일을 먼저 선택해 주세요.</P>
                             </RelativeDiv>
                         </Td>
                     </tr>
@@ -411,13 +413,13 @@ const AdminCreateShow = () => {
                                     placeholderText="  날짜를 선택하세요."
                                     locale="ko"
                                     minDate={startDate}
-                                    maxDate={endDate} // 시작일 이전에서만 선택 가능
+                                    maxDate={endDate} // 시작일 이전만 선택 가능
                                     disabled={hasEndDate || hasShowId}
                                 />
                                 <CalenderDiv onClick={() => lastTicketPickerRef.current && lastTicketPickerRef.current.setOpen(true)}>
                                     <CalendarSVG />
                                 </CalenderDiv>
-                                <P> 전체 공연 종료일을 먼저 선택해주세요.</P>
+                                <P> 전체 공연 종료일을 먼저 선택해 주세요.</P>
                             </RelativeDiv>
                         </Td>
                     </tr>
@@ -425,17 +427,17 @@ const AdminCreateShow = () => {
                         <Th>공연 시간</Th>
                         <Td>
                             <RelativeDiv>
-                                <Input placeholder="  시간을 입력하세요."
+                                <Input placeholder="러닝타임을 입력하세요."
                                        onChange={(e) => setShowDuring(e.target.value)}
                                        disabled={hasShowId}/>
-                                <P> 인터미션등의 특이사항도 함께 적어주세요. </P>
+                                <P> 인터미션 등의 특이사항도 함께 적어주세요. </P>
                             </RelativeDiv>
                         </Td>
                     </tr>
                     <tr>
                         <Th>관람 연령</Th>
                         <Td>
-                            <Input placeholder="  연령제한을 입력하세요."
+                            <Input placeholder="관람 가능 연령을 입력하세요."
                                    onChange={(e) => setAgeLimit(e.target.value)}
                                    disabled={hasShowId} />
                         </Td>
@@ -456,7 +458,7 @@ const AdminCreateShow = () => {
                         </Td>
                     </tr>
                     <tr>
-                        <Th>공연포스터 이미지</Th>
+                        <Th>공연 메인 포스터</Th>
                         <Td>
                             <InputFile
                                 type="file"
@@ -473,11 +475,11 @@ const AdminCreateShow = () => {
                         <tr key={index}>
                             <Th>
                                 <BetweenDiv>
-                                    썸네일
-                                    <ButtonX onClick={() => handleRemoveFile()}
+                                    포스터 미리보기
+                                    <button style={{padding: '0 3px', border: 'darkgray 1px'}} onClick={() => handleRemoveFile()}
                                              /*disabled={hasShowId}*/>
                                         ✕
-                                    </ButtonX>
+                                    </button>
                                 </BetweenDiv>
                             </Th>
                             <Td>
@@ -521,11 +523,11 @@ const AdminCreateShow = () => {
                         <tr key={index}>
                             <Th>
                                 <BetweenDiv>
-                                    썸네일
-                                    <ButtonX onClick={() => handleRemoveDetailImage(index)}
+                                    미리보기
+                                    <button style={{padding: '0 3px', border: 'darkgray 1px'}} onClick={() => handleRemoveDetailImage(index)}
                                              /*disabled={hasShowId}*/>
                                         ✕
-                                    </ButtonX>
+                                    </button>
                                 </BetweenDiv>
                             </Th>
                             <Td>
@@ -555,10 +557,10 @@ const AdminCreateShow = () => {
                         <Th>상세페이지 텍스트</Th>
                         <Td>
                             <FlexCenterDiv>
-                                <Textarea placeholder="  이미지 외 추가설명을 입력하세요."
+                                <Textarea placeholder="이미지 외 추가설명을 입력하세요."
                                           onChange={(e) => setDetailText(e.target.value)}
                                           disabled={hasShowId}/>
-                                <P>텍스트 상자의 오른쪽 하단을 클릭해서 입력창을 조절할 수 있습니다.</P>
+                                <P>텍스트 상자의 오른쪽 하단을 클릭해서<br />입력창을 조절할 수 있습니다.</P>
                             </FlexCenterDiv>
                         </Td>
                     </tr>

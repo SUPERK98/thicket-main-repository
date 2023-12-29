@@ -5,7 +5,7 @@ import React, {useState} from "react";
 import {MemberTicketingList} from "../component/MemberTicketingList";
 import {MemberViewingList} from "../component/MemberViewingList";
 import {MemberCouponList} from "../component/MemberCouponList";
-import { Wrapper, MarginTop, Container, ASide, Main } from "../../assets/css/setting/MainStyleCSS";
+import {ASide, Container, Main, MarginTop, Wrapper} from "../../assets/css/setting/MainStyleCSS";
 
 const MyPage = () => {
     const [content, setContent] = useState("mypage");

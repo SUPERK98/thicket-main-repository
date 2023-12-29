@@ -54,8 +54,11 @@
         @Column(nullable = false)
         private LocalDateTime cancelDate;
 
-        @Enumerated(EnumType.STRING)
-        @Column(nullable = false)
+        @Column
+        private LocalDateTime arriveServer;
+
+        @Enumerated(EnumType.STRING) // Enum 타입을 문자열로 저장
+        @Column
         private Status status;
         @Column
         private Long cts;
@@ -74,8 +77,6 @@
         private UUID memberId;
 
         @Column(nullable = false)
-        private UUID chairId;
-        @Column(nullable = false)
         private boolean deleted;
 
         @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
@@ -90,9 +91,8 @@
                                           String newChairType, int newCount, String newMemberName,
                                           String newPhone, int newPrice, LocalDateTime newCancelDate,
                                           UUID newStageId, UUID newMemberId, UUID newChairId, String newStageType,
-                                          int sequence, int latency, Long cts) {
+                                          int sequence, int latency, Long cts, LocalDateTime arriveServer,Status status) {
             Ticket ticket = new Ticket();
-
 
             ticket.deleted = false;
             ticket.stageName = newStageName;
@@ -109,10 +109,11 @@
             ticket.memberId = newMemberId;
             ticket.chairId=newChairId;
             ticket.stageType = newStageType;
-            ticket.status = Status.RESERVE;
             ticket.sequence=sequence;
             ticket.latency=latency;
             ticket.cts=cts;
+            ticket.arriveServer=arriveServer;
+            ticket.status=status;
             return ticket;
         }
         public void updateDeleted(boolean deleted) {

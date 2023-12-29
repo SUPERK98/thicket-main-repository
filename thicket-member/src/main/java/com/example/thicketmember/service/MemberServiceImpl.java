@@ -9,7 +9,9 @@ import com.example.thicketmember.enumerate.MemberStatus;
 import com.example.thicketmember.repository.MemberRepository;
 import com.example.thicketmember.util.JwtTokenGenerator;
 import com.sun.jdi.request.DuplicateRequestException;
+import jakarta.ws.rs.BadRequestException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -17,16 +19,21 @@ import org.springframework.transaction.annotation.Transactional;
 import org.webjars.NotFoundException;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 @Service
 @RequiredArgsConstructor
 @Transactional
+@Slf4j
 public class MemberServiceImpl implements MemberService{
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenGenerator tokenGenerator;
+    private final List<UUID> loginSession = new CopyOnWriteArrayList<>();
 
     public Member signup(RequestMemberSignupDto dto) {
         // 이미 가입한 계정이 있으면 해당 계정이 리턴됨
@@ -39,11 +46,10 @@ public class MemberServiceImpl implements MemberService{
         if (findMember.isPresent()) {
             Member member = findMember.get();
             if(member.getStatus().equals(MemberStatus.ACTIVE)){
-                throw new DuplicateRequestException("이미 가입된 회원입니다.");
+                throw new IllegalArgumentException("이미 가입된 회원입니다.");
             }
             // 상태가 INACTIVE라면 ACTIVE로 바꿔서 재가입 처리
             member.changeStatus(MemberStatus.ACTIVE);
-
             return member;
         }
         // dto의 이메일로 가입된 계정이 없다면 신규 가입 처리
@@ -56,16 +62,30 @@ public class MemberServiceImpl implements MemberService{
     public HttpHeaders signin(RequestMemberSigninDto dto) {
         Member member = memberRepository.findByEmail(dto.getEmail())
                 .orElseThrow(() -> new NotFoundException("계정 정보를 확인해주세요."));
+        UUID id = member.getId();
+
 
         if (!passwordEncoder.matches(dto.getPassword(), member.getPassword())) {
             throw new IllegalArgumentException("계정 정보를 확인해주세요.");
         }
+        
         if (member.getStatus().equals(MemberStatus.INACTIVE)) {
             throw new NotFoundException("계정 정보를 확인해주세요.");
         }
+        
+        if (loginSession.contains(id)) {
+            log.info("중복 로그인 발생!");
+            throw new DuplicateRequestException(String.valueOf(id));
+        }
+        // 중복 로그인 방지 세션에 추가
+        loginSession.add(id);
 
-        return tokenGenerator.createToken(String.valueOf(member.getId()),
+        return tokenGenerator.createToken(String.valueOf(id),
                 String.valueOf(member.getMemberRole()));
+    }
+
+    public void logout(UUID uuid){
+            loginSession.remove(uuid);
     }
 
     @Override

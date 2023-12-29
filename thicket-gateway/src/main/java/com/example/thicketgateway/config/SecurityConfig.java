@@ -34,13 +34,11 @@ public class SecurityConfig {
                 .httpBasic(ServerHttpSecurity.HttpBasicSpec::disable)
                 .formLogin(formLoginSpec -> formLoginSpec.authenticationManager(manager))
                 .csrf(ServerHttpSecurity.CsrfSpec::disable)
-                .logout(logoutSpec -> logoutSpec
-                        .logoutUrl("/api/auth/logout")
-                        .logoutSuccessHandler(logoutSuccessHandler()))
                 .authenticationManager(manager)
                 .authorizeExchange(exchange -> exchange
                 .pathMatchers("/thicket-member/members").hasRole("USER")
                 .pathMatchers("/thicket-member/members/master").hasRole("MASTER")
+                .pathMatchers("/thicket-member/members/login").hasRole("USER")
                 .pathMatchers("/thicket-member/members/**").permitAll()
                 .pathMatchers("/thicket-member/email/**").permitAll()
                 .pathMatchers("/thicket-member/email").permitAll()
@@ -95,16 +93,6 @@ public class SecurityConfig {
                     exchange.getExchange().getResponse().setStatusCode(HttpStatus.UNAUTHORIZED);
                 })
         );
-
         return webFilter;
-    }
-
-    private ServerLogoutSuccessHandler logoutSuccessHandler() {
-        return (exchange, authentication) -> {
-            ServerHttpResponse response = exchange.getExchange().getResponse();
-            response.setStatusCode(HttpStatus.OK);
-            response.getHeaders().get(HttpHeaders.AUTHORIZATION).clear();
-            return response.setComplete();
-        };
     }
 }

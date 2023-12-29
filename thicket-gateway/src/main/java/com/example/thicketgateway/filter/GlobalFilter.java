@@ -12,6 +12,9 @@ import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
 
 import java.util.List;
+import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.ConcurrentHashMap;
 
 @Component
 @Slf4j
@@ -27,6 +30,7 @@ public class GlobalFilter extends AbstractGatewayFilterFactory<GlobalFilter.Conf
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
             String token = exchange.getRequest().getHeaders().getFirst(HttpHeaders.AUTHORIZATION);
+
             log.info("토큰 추출 token : " + token);
             if (token != null) {
                 exchange.getRequest().mutate()

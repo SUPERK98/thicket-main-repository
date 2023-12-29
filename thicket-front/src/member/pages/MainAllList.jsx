@@ -1,12 +1,16 @@
 import {
-    Wrapper,
+    DivList1,
+    H1,
+    Img1,
+    ImgInfo1,
     InvisibleScroll,
     MainContainer,
-    H1,
-    DivList1, Poster1, Img1, ImgInfo1, PaddingDiv
+    PaddingDiv,
+    Poster1,
+    Wrapper
 } from "../../assets/css/setting/MainStyleCSS";
 import {useEffect, useState} from "react";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const ShowList = () => {
     const [shows, setShows] = useState([]);
@@ -33,9 +37,9 @@ const ShowList = () => {
                     <Poster1 key={show.stageId} onClick={() => navigate(`/detail/${show.stageId}`)}>   
                         <Img1 src={show.posterImg} alt="Poster" />
                         <ImgInfo1>
-                            <PaddingDiv>{show.name}</PaddingDiv>
-                            <PaddingDiv>{show.place}</PaddingDiv>
-                            <PaddingDiv>{`${formatDateString(show.stageOpen)} ~ ${formatDateString(show.stageClose)}`}</PaddingDiv>
+                            <div>{show.name}</div>
+                            <div>{show.place}</div>
+                            <div>{`${formatDateString(show.stageOpen)} ~ ${formatDateString(show.stageClose)}`}</div>
                         </ImgInfo1>
                     </Poster1>
                 ))

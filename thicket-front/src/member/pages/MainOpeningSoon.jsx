@@ -1,13 +1,18 @@
 import {
-    Wrapper,
+    DivList2,
+    H1,
+    H2,
+    H3,
+    H4,
+    Img2,
+    ImgDivInfo2,
     InvisibleScroll,
     MainContainer,
-    H1, H2, H3, H4,
-    DivList2, Poster2, Img2, ImgDivInfo2,
-    // 왼쪽광고, 오른쪽광고
+    Poster2,
+    Wrapper,
 } from "../../assets/css/setting/MainStyleCSS";
 import {useEffect, useState} from "react";
-import { useNavigate } from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 
 const ShowList = () => {
     const [shows, setShows] = useState([]);

@@ -1,8 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import {
-    Button,
     Container,
-    H1, Input, PaddingTopDiv,
+    H1,
+    Input,
+    PaddingTopDiv,
     RightDiv,
     Table,
     Td,
@@ -53,17 +54,17 @@ export const MemberMyPage = ({contentHandler}) => {
     // 비밀번호 변경 함수
     const handlePasswordChange = () => {
         if (newPassword !== confirmNewPassword) {
-            alert("비밀 번호와 비밀번호 확인이 서로 다릅니다.")
+            alert("기존 비밀번호와 신규 비밀번호가 일치하지 않습니다.")
             return;
         }
         if (currentPassword.trim() === "" || newPassword.trim() === "" || confirmNewPassword.trim() === "") {
-            alert("비밀 번호 변경란을 모두 입력해 주십시오.")
+            alert("비밀번호 변경란을 모두 입력해 주십시오.")
             return;
         }
         fetch('/thicket-member/members',{
             method: "PATCH",
             headers: {
-                'Email':'test123@gmail.com',
+                'Authorization': localStorage.getItem('token'),
                 'Content-Type':'application/json'
             },
             body: JSON.stringify({currentPassword,newPassword})
@@ -140,7 +141,10 @@ export const MemberMyPage = ({contentHandler}) => {
                                 value={confirmNewPassword}
                                 onChange={(e) => setConfirmNewPassword(e.target.value)}
                             />
-                            <Button onClick={handlePasswordChange}>변경</Button>
+                            <button style={{marginLeft: '10px',
+                                            padding: '4px 12px', color: 'white', backgroundColor: 'gray',
+                                            borderRadius: '4px', border: 'none'}}
+                                    onClick={handlePasswordChange}>변경</button>
                             {passwordCheckResult === false && (
                                 <p style={{ color: 'red', fontSize:'15px'}}>비밀번호가 일치하지 않습니다.</p>
                             )}
@@ -150,7 +154,10 @@ export const MemberMyPage = ({contentHandler}) => {
                 </Table>
             </PaddingTopDiv>
             <RightDiv>
-                <Button onClick={handleWithdrawalClick}>회원탈퇴</Button>
+                <button style={{marginLeft: '10px', marginRight: '5px',
+                                padding: '6px 13px', color: 'white', backgroundColor: 'lightgray',
+                                borderRadius: '4px', border: 'none'}}
+                        onClick={handleWithdrawalClick}>회원탈퇴</button>
             </RightDiv>
         </Container>
     );

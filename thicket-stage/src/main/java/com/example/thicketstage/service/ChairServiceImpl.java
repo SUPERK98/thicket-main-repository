@@ -10,6 +10,7 @@ import com.example.thicketstage.repository.StageRepository;
 import com.example.thicketstage.repository.StageStartRepository;
 import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +21,7 @@ import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class ChairServiceImpl implements ChairService{
 
     private final ChairRepository chairRepository;
@@ -31,6 +33,8 @@ public class ChairServiceImpl implements ChairService{
     public List<List<Chair>> createChair(RequestCreateChairDto dto) {
         Stage findStage = stageRepository.findFetchById(dto.getStageId())
                 .orElseThrow(() -> new EntityNotFoundException("해당 공연 정보가 존재하지 않습니다."));
+
+        log.info(dto.getStageId()+"");
 
         return findStage.getStageStart().stream()
                 .map(ss -> chairRepository.saveAll(dto.getChairDtos().stream()

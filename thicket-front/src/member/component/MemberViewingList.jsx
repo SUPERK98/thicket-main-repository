@@ -33,7 +33,7 @@ export const MemberViewingList = () => {
                         <Th width="220px">공연명</Th>
                         <Th width="auto">장소</Th>
                         <Th width="130px">공연일</Th>
-                        <Th width="85px">상태</Th>
+                        <Th width="100px">상태</Th>
                     </tr>
                     {viewing && viewing.length > 0 ? (
                         viewing.map((item) => (

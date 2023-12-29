@@ -1,6 +1,10 @@
 package com.example.thicketticket.dto.request;
 
 import com.example.thicketticket.domain.Ticket;
+import com.example.thicketticket.enumerate.Status;
+import jakarta.persistence.Column;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -12,7 +16,6 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Data
-@NoArgsConstructor
 public class RequestCreateTicketDto {
 
     private UUID id;
@@ -35,6 +38,8 @@ public class RequestCreateTicketDto {
     @NotNull(message = "count cannot be empty")
     private int count;
 
+    private LocalDateTime arriveServer;
+
     private String memberName;
 
     @Min(value = 0, message = "price must be greater than or equal to 0")
@@ -49,6 +54,9 @@ public class RequestCreateTicketDto {
     private String stageId;
 
     private String memberId;
+
+    @Enumerated(EnumType.STRING)
+    private Status status;
 
     @NotNull
     private boolean deleted;

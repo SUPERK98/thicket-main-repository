@@ -97,7 +97,7 @@ export const Img2 = styled.img`
 `;
 
 export const ImgDivInfo2 = styled.div`
-  width: auto;
+  width: 400px;
   height: 100%;
   padding: 0 20px;
   border: 1px solid lightgray;
@@ -142,7 +142,7 @@ export const ASide = styled.div`
   align-items: center; // 자식 요소를 수직으로 중앙 정렬
   width: 160px;
   padding: 10px; // 모든 측면에 10px의 안쪽 여백 적용
-  border: black solid 1px; // 1px 두께의 검은색 실선 테두리
+  border: gray solid 1px; // 1px 두께의 검은색 실선 테두리
   border-radius: 5px; // 5px의 테두리를 둥글게 처리
   margin-top:20px;
 `;
@@ -367,20 +367,21 @@ export const ButtonList = styled.div`
 export const ChoiceDiv = styled.div`
   text-align: center;
   font-size: 14px;
-  border: 1px solid ${props => (props.selected ? '#8e43e7' : 'gray')};
+  border: 1px solid ${props => (props.selected ? '#ff8989' : 'gray')};
   border-radius: 5px;
   padding: 10px;
   cursor: ${props => (props.onClick ? 'pointer' : 'default')};
-  background-color: ${props => (props.selected ? '#8e43e7' : 'white')};
+  background-color: ${props => (props.selected ? '#ff8989' : 'white')};
   font-weight: ${props => (props.selected ? 'bold' : 'normal')}; // Added font-weight property
 
   &:hover {
-    background-color: ${props => (props.selected ? '#8e43e7' : props.onClick ? '#f0f0f0' : 'white')};
+    background-color: ${props => (props.selected ? '#e87c7c' : props.onClick ? '#f0f0f0' : 'white')};
   }
 
   ${props => props.selected && props.selectedTime && css`
-    background-color: #8e43e7;
+    background-color: #ff8989;
     font-weight: bold;
+    color: white;
   `}
 `;
 

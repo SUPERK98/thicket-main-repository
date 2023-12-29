@@ -13,6 +13,7 @@ import org.springframework.web.servlet.view.RedirectView;
 import org.webjars.NotFoundException;
 
 import java.net.URI;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/members")
@@ -33,9 +34,16 @@ public class MemberApiController {
 
     @PostMapping("{role}") //토큰 반환
     public ResponseEntity<?> signin(@RequestBody RequestMemberSigninDto dto) {
+
         HttpHeaders headers = memberService.signin(dto);
         return ResponseEntity.status(HttpStatus.PERMANENT_REDIRECT)
                 .headers(headers).body("로그인 성공");
+    }
+
+    @GetMapping("logout")
+    public ResponseEntity<?> logout(@RequestHeader("UUID") UUID uuid) {
+        memberService.logout(uuid);
+        return ResponseEntity.ok("로그아웃 되었습니다.");
     }
 
     @GetMapping("master")
@@ -67,8 +75,13 @@ public class MemberApiController {
         return ResponseEntity.ok("회원 탈퇴 성공");
     }
 
-    @ExceptionHandler({IllegalArgumentException.class, DuplicateRequestException.class, NotFoundException.class})
+    @ExceptionHandler({IllegalArgumentException.class, NotFoundException.class})
     public ResponseEntity<?> exceptionHandler(Exception e) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @ExceptionHandler(DuplicateRequestException.class)
+    public ResponseEntity<?> exceptionHandlerByDuplicateLogin(Exception e) {
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(e.getMessage());
     }
 }

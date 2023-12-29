@@ -1,5 +1,5 @@
 import {Container, H1, Table, TableHeaderRow, Td, TdNotCenter} from '../../assets/css/setting/admin/StylesOfList';
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 
 export const AdminAllStageList = () => {
     const [showList, setShowList] = useState([]);
@@ -16,7 +16,6 @@ export const AdminAllStageList = () => {
             .then(result => {
                 setShowList(result);
             })
-            .catch(error => alert(error.date));
     }, []);
     return (
         <Container>
@@ -37,7 +36,7 @@ export const AdminAllStageList = () => {
                             <Td>{value.stageOpen}</Td>
                             <Td>{value.stageClose}</Td>
                         </tr>
-                        )}):(<tr>집가고싶다.</tr>)}
+                        )}):(<tr> <Td colSpan={6}>없음</Td> </tr>)}
                     </tbody>
                 </Table>
             </div>

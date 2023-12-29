@@ -2,6 +2,7 @@ package com.example.thicketloader.dto;
 
 
 import com.example.thicketloader.domain.Ticket;
+import com.example.thicketloader.enumerate.Status;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -65,15 +66,19 @@ public class TicketDto {
     @NotNull(message = "chairId cannot be null")
     private UUID chairId;
 
+    private Status status;
+
+    @NotNull(message = "arriveServer cannot be null")
+    private LocalDateTime arriveServer;
 
     public Ticket toEntity() {
         return Ticket.createTicket(
-                stageName,place,date, uuid,
-                chairType,count,
-                memberName,phone,price,
-                cancelDate,stageId,memberId,chairId,
-                stageType,sequence,latency ,cts
-               );
+                stageName, place, date, uuid,
+                chairType, count,
+                memberName, phone, price,
+                cancelDate, stageId, memberId, chairId,
+                stageType, sequence, latency, cts, arriveServer,status
+        );
 
     }
 

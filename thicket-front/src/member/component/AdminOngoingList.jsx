@@ -1,6 +1,22 @@
 import {Container, H1, Table, TableHeaderRow, Td, TdNotCenterAnd} from '../../assets/css/setting/admin/StylesOfList';
+import React, {useEffect, useState} from "react";
 
 export const AdminOngoingList = ({contentHandler, showId}) => {
+    const [showList, setShowList] = useState([]);
+    useEffect(() => {
+        const requestOptions = {
+            method: 'GET',
+            headers:{
+                "Authorization": localStorage.getItem('token')
+            }
+        };
+
+        fetch("/thicket-show/shows/ongoing/admin", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                setShowList(result);
+            });
+    }, [])
     const handleTitleClick = () => {
         contentHandler("entrance");
     };
@@ -11,16 +27,19 @@ export const AdminOngoingList = ({contentHandler, showId}) => {
                 <Table>
                     <tbody>
                     <TableHeaderRow />
-                    <tr>
-                        <Td>2</Td>
-                        <Td>연극</Td>
-                        <TdNotCenterAnd onClick={handleTitleClick}>
-                            4D공포연극
-                        </TdNotCenterAnd>
-                        <Td>진행중</Td>
-                        <Td>2022.12.01.</Td>
-                        <Td>2023.12.31.</Td>
-                    </tr>
+                    {Array.isArray(showList) ? showList.map((value, index) => {
+                        return (
+                            <tr key={index}>
+                                <Td>{index}</Td>
+                                <Td>{value.stageType}</Td>
+                                <TdNotCenterAnd onClick={handleTitleClick}>
+                                    {value.name}
+                                </TdNotCenterAnd>
+                                <Td>{value.stageStatus}</Td>
+                                <Td>{value.stageOpen}</Td>
+                                <Td>{value.stageClose}</Td>
+                            </tr>
+                        )}):(<tr> <Td colSpan={6}>없음</Td> </tr>)}
                     </tbody>
                 </Table>
             </div>

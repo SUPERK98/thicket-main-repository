@@ -1,8 +1,8 @@
 import MainAllList from "../pages/MainAllList";
 import Header from "./Header";
-import {BrowserRouter as Router, redirect, Route, Routes, useNavigate} from "react-router-dom";
+import {BrowserRouter as Router, Route, Routes} from "react-router-dom";
 import MyPage from "../pages/MyPage";
-import React, {createContext, useEffect, useState} from "react";
+import React, {createContext, useState} from "react";
 import AdminPage from "../pages/AdminPage";
 import ReadyKakaopay from "../pages/ReadyKakaopay";
 import ApproveKakaopay from "../pages/ApproveKakaopay";

@@ -1,6 +1,6 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import axios from 'axios';
-import { useNavigate, useLocation } from 'react-router-dom';
+import {useLocation, useNavigate} from 'react-router-dom';
 import {EmailContext} from "../component/Layout";
 import {H1} from "../../assets/css/setting/admin/StylesOfCreate";
 
@@ -10,7 +10,9 @@ const inlineStyles = {
   },
   div: {
     margin: '100px auto',
-    width: '300px',
+    marginTop: '150px',
+    width: '400px',
+
   },
   h2: {
     color: '#333',
@@ -19,29 +21,26 @@ const inlineStyles = {
   form: {
     display: 'flex',
     flexDirection: 'column',
-    padding: '20px',
+    padding: '30px',
     borderRadius: '5px',
     boxShadow: '0px 0px 10px rgba(0, 0, 0, 0.1)',
   },
-  label: {
-    marginBottom: '10px',
-  },
   input: {
-    padding: '10px',
-    marginBottom: '20px',
+    padding: '6px',
     borderRadius: '5px',
     border: '1px solid #ddd',
+    marginLeft: '8px'
   },
   button: {
     padding: '10px',
     color: 'white',
-    backgroundColor: '#007bff',
+    backgroundColor: '#fc4942',
     border: 'none',
     borderRadius: '5px',
     cursor: 'pointer',
   },
   buttonHover: {
-    backgroundColor: '#0056b3',
+    backgroundColor: '#E72C25',
   },
 };
 
@@ -90,63 +89,79 @@ function SignUp() {
         <div style={{ border: '1px solid #000', borderRadius: '5px', padding: '10px', display: 'inline-block' }}>
           <H1>회원가입</H1> <br />
           <form style={inlineStyles.form} onSubmit={handleSubmit}>
-            <label style={{ marginBottom: '10px',}}>
-              이메일 주소:
+            <label>
+              이메일 주소
               <input
                   type="email"
                   name="email"
                   value={formData.email}
                   readOnly
-                  style={{ padding: '10px',
-                            marginBottom: '20px',
+                  style={{ padding: '6px',
                             borderRadius: '5px',
                             border: '1px solid #ddd',
+                            marginLeft: '8px'
                   }}
               />
             </label>
             <br />
-            <label style={inlineStyles.label}>
-              비밀번호:
+            <label>
+              비밀번호
               <input
                   type="password"
                   name="password"
                   value={formData.password}
                   onChange={handleChange}
-                  style={inlineStyles.input}
+                  style={{padding: '6px',
+                          borderRadius: '5px',
+                          border: '1px solid #ddd',
+                          marginLeft: '27px'}}
               />
             </label>
             <br />
-            <label style={inlineStyles.label}>
-              이름:
+            <label >
+              이름
               <input
                   type="text"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  style={inlineStyles.input}
+                  style={{padding: '6px',
+                          borderRadius: '5px',
+                          border: '1px solid #ddd',
+                          marginLeft: '58px'}}
               />
             </label>
             <br />
-            <label style={inlineStyles.label}>
-              생년월일:
+            <label>
+              생년월일
               <input
                   type="date"
                   name="birthdate"
                   value={formData.birthdate}
                   onChange={handleChange}
                   placeholder="YYYY-MM-DD"
-                  style={inlineStyles.input}
+                  style={{padding: '6px',
+                          borderRadius: '5px',
+                          border: '1px solid #ddd',
+                          marginLeft: '27px',
+                          width: '220.8px'}}
               />
             </label>
             <br />
-            <label style={inlineStyles.label}>
-              핸드폰 번호:
+            <label>
+              핸드폰 번호
               <input
                   type="tel"
                   name="phoneNumber"
                   value={formData.phoneNumber}
                   onChange={handleChange}
-                  style={inlineStyles.input}
+                  placeholder="010-0000-0000"
+                  style={{padding: '6px',
+                          borderRadius: '5px',
+                          border: '1px solid #ddd',
+                          marginLeft: '8px',
+                          marginBottom: '15px',
+                          marginRight: '8px'}}
               />
             </label>
             <br />

@@ -1,8 +1,7 @@
 import React, {useEffect, useState} from "react";
 import {Container, H1, Table, Td, Th} from '../../assets/css/setting/admin/StylesOfList';
 import ReactDOM from "react-dom";
-import Cancel from "../../payment/pages/Cancel";
-import Reservation from "../../payment/pages/Reservation";
+import Cancel1 from "../../payment/pages/Cancel1";
 
 export const MemberTicketingList = () => {
 
@@ -31,8 +30,13 @@ export const MemberTicketingList = () => {
 
         const cancelWindow = window.open('', '_blank', windowFeatures);
 
+        const closeWindowCallback = () => {
+            cancelWindow.close();
+            window.location.reload(); // 창 닫히고 새로고침
+        };
+
         ReactDOM.render(
-            <Cancel ticketId={ticketId} />,
+            <Cancel1 ticketId={ticketId} onCancel={closeWindowCallback} />,
             cancelWindow.document.body
         );
     };
@@ -53,7 +57,7 @@ export const MemberTicketingList = () => {
                         <H1>예매 내역</H1>
                     </div>
                     <div>
-                        <a>취소 가능 일자 : 오픈 3일전</a>
+                        <a>취소 가능 일자 : 오픈 3일전 까지</a>
                     </div>
                 </div>
                 <Table>
@@ -66,7 +70,7 @@ export const MemberTicketingList = () => {
                         <Th width="auto">장소</Th>
                         <Th width="130px">공연일</Th>
                         <Th width="100px">예매취소</Th>
-                        <Th width="85px">상태</Th>
+                        <Th width="100px">상태</Th>
                     </tr>
                     {tickets && tickets.length > 0 ? (
                         tickets.map((item) => (
@@ -79,7 +83,9 @@ export const MemberTicketingList = () => {
                                 <Td>{new Date(item.date).toLocaleString('ko-KR', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', hour12: false })}</Td>
                                 <Td>
                                     {isCancelable(item.date) ? (
-                                        <button style={{padding: '5px 10px'}} onClick={() => handleCancelClick(item.id)}>취소</button>
+                                        <button style={{padding: '4px 12px', color: 'white', backgroundColor: 'gray',
+                                                        borderRadius: '4px', border: 'none'}}
+                                                onClick={() => handleCancelClick(item.id)}>취소</button>
                                     ) : (
                                         <span>취소불가</span>
                                     )}

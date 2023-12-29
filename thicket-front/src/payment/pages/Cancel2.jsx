@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Cancel3 from "./Cancel3";
 
-function Cancel2({ ticketId, ticket }) {
+function Cancel2({ ticketId, ticket, closeWindowCallback  }) {
     const [showCancel3, setShowCancel3] = useState(false);
     const [inputValue, setInputValue] = useState('');
 
@@ -15,7 +15,7 @@ function Cancel2({ ticketId, ticket }) {
     return (
         <div style={{width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
             {showCancel3 ? (
-                <Cancel3 ticketId={ticketId} ticket={ticket} />
+                <Cancel3 ticketId={ticketId} ticket={ticket} closeWindowCallback={closeWindowCallback} />
             ) : (
                 <div style={{width: '100%', display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
                     <div style={{
@@ -46,7 +46,7 @@ function Cancel2({ ticketId, ticket }) {
                         width: '80%',
                         backgroundColor: 'lightgray',
                         marginTop: '10px',
-                        padding: '5px',
+                        padding: '10px',
                         borderRadius: '12px',
                         display: 'flex',
                         justifyContent: 'space-around',
@@ -54,16 +54,22 @@ function Cancel2({ ticketId, ticket }) {
                         textAlign: 'center'   // 좌우 정렬
                     }}>
                         <div>
-                            <div>비밀번호 확인</div>
-                            <div>정말로 예매를 취소하시겠습니까? 취소를 원하시면 "예매취소"를 입력하세요</div>
+                            <div>정말로 예매를 취소하시겠습니까?</div>
+                            <div>취소를 원하시면 "예매 취소"를 입력 후 확인 버튼을 누르세요.</div>
                         </div>
                     </div>
-                    <div style={{display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                    <div style={{ display: 'flex', alignItems: 'center', marginTop:'10px', padding: '5px',  }}>
                         <div>
-                            <input type="text" value={inputValue} onChange={(e) => setInputValue(e.target.value)}/>
+                            <input style={{padding: '5px', borderRadius: '4px'}}
+                                type="text"
+                                value={inputValue}
+                                onChange={(e) => setInputValue(e.target.value)}
+                                placeholder="예매취소" // Placeholder added here
+                            />
                         </div>
-                        <div>
-                            <button onClick={handleConfirmClick}>확인</button>
+                        <div style={{marginLeft:'10px'}}>
+                            <button style={{padding: '6px 12px', color: 'white', backgroundColor: 'gray',
+                                borderRadius: '4px', border: 'none'}} onClick={handleConfirmClick}>확인</button>
                         </div>
                     </div>
                 </div>

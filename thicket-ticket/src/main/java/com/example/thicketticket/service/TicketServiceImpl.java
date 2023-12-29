@@ -62,9 +62,9 @@ public class TicketServiceImpl implements TicketService{
         ticketDto.setMemberId(String.valueOf(memberId));
 
         // CorrectedTimestamp 설정
-        LocalDateTime localDateTime = LocalDateTime.ofInstant(correctedTimestamp, ZoneId.systemDefault());
+        LocalDateTime localDateTime = LocalDateTime.ofInstant(currentTime, ZoneId.systemDefault());
         ticketDto.setCts(correctedTimestamp.toEpochMilli());
-
+        ticketDto.setArriveServer(localDateTime);
         System.out.println("Corrected Timestamp in DTO: " + ticketDto.getCts());
         System.out.println(ticketDto);
         // 객체를 JSON 문자열로 직렬화

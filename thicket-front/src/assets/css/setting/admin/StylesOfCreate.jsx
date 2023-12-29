@@ -5,7 +5,7 @@ import React from "react";
 export const Container = styled.div`
   padding: 10px;
   overflow-y: auto; // 내부 수직 스크롤바
-  max-height: 80vh;
+  max-height: 76vh;
 `;
 
 export const CustomDiv = styled.div`
@@ -50,10 +50,10 @@ export const RightDiv = styled.div`
 export const CalenderDiv = styled.div`
   position: absolute;
   left: 280px;
-  top: 5px;
   cursor: pointer;
+`;
 
-`;export const CalenderDiv2 = styled.div`
+export const CalenderDiv2 = styled.div`
   position: absolute;
   left: 280px;
   top: 5px;
@@ -132,6 +132,7 @@ export const Input = styled.input`
   width: 300px;
   height: 25px;
   box-sizing: border-box;
+  padding: 5px
 `;
 
 export const InputFile = styled.input`
@@ -139,10 +140,10 @@ export const InputFile = styled.input`
 `;
 
 export const Textarea = styled.textarea`
-  width: 300px;
-  height: 25px;
+  width: 500px;
+  height: 150px;
   box-sizing: border-box;
-  padding: 5px 0 0 1px;
+  padding: 3px 3px 3px 6px ;
 `;
 
 export const Button = styled.button`
@@ -170,6 +171,7 @@ export const Button2 = styled.button`
 
 export const ButtonX = styled.button`
   padding: 0 3px;
+  border: gray solid 1px;
 `;
 
 export const Select = styled.select`

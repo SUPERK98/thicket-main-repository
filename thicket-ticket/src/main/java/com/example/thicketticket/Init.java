@@ -101,14 +101,14 @@ public class Init {
 
             // Ticket 더미데이터 생성
             Ticket ticket1 = Ticket.createTicket(
-                    "뮤지컬<마리퀴리>",
-                    "홍익대 아트센터 대극장",
+                    "청소년극<#버킷리스트>",
+                    "국립극단 소극장 판",
                     LocalDateTime.of(2023, 12, 26, 19, 30),
-                    "의자유형1", 2, "회원명1", "123456789", 100, LocalDateTime.now().plusDays(1),
-                    UUID.fromString("60544d9e-e39c-42cf-a9dd-d8a5ced1710f"),
-                    UUID.fromString("60544d9e-e39c-42cf-a9dd-d8a5ced1710f"),
-                    UUID.fromString("60544d9e-e39c-42cf-a9dd-d8a5ced1710f"),
-                    "무대유형1"
+                    "VIP", 1, "홍길동", "987654321", 99000, LocalDateTime.now().plusDays(4),
+                    UUID.fromString("00af095e-7334-4e93-a858-abf3aa5f1871"),
+                    UUID.fromString("d45608e2-a8eb-4e78-a49c-9062763df011"), // 실제 회원 ID 넣어야 함
+                    UUID.fromString("69a3da0c-6bf3-4d0c-b093-e594d31a2456"),
+                    "PLAY"
             );
 
             Payment newPayment1 = Payment
@@ -122,11 +122,11 @@ public class Init {
                     "청소년극<#버킷리스트>",
                     "국립극단 소극장 판",
                     LocalDateTime.of(2023, 11, 23, 19, 30),
-                    "의자유형2", 3, "회원명2", "987654321", 80, LocalDateTime.now().plusDays(2),
-                    UUID.fromString("57de4ada-12b8-4dd9-86b3-23a3bd8dc20d"),
-                    UUID.fromString("57de4ada-12b8-4dd9-86b3-23a3bd8dc20d"),
-                    UUID.fromString("57de4ada-12b8-4dd9-86b3-23a3bd8dc20d"),
-                    "무대유형2"
+                    "VIP", 1, "홍길동", "987654321", 99000, LocalDateTime.now().plusDays(4),
+                    UUID.fromString("00af095e-7334-4e93-a858-abf3aa5f1871"),
+                    UUID.fromString("d45608e2-a8eb-4e78-a49c-9062763df011"), // 실제 회원 ID 넣어야 함
+                    UUID.fromString("69a3da0c-6bf3-4d0c-b093-e594d31a2456"),
+                    "PLAY"
             );
 
             Payment newPayment2 = Payment
@@ -139,14 +139,14 @@ public class Init {
 
 
             Ticket ticket3 = Ticket.createTicket(
-                    "뮤지컬<마리퀴리>",
-                    "홍익대 아트센터 대극장",
+                    "청소년극<#버킷리스트>",
+                    "국립극단 소극장 판",
                     LocalDateTime.of(2023, 11, 23, 19, 30),
-                    "의자유형3", 1, "회원명3", "987654321", 120, LocalDateTime.now().plusDays(3),
-                    UUID.fromString("540daf83-d776-4cc4-badc-11c19c2c9e8d"),
-                    UUID.fromString("540daf83-d776-4cc4-badc-11c19c2c9e8d"),
-                    UUID.fromString("540daf83-d776-4cc4-badc-11c19c2c9e8d"),
-                    "무대유형3"
+                    "VIP", 1, "홍길동", "987654321", 99000, LocalDateTime.now().plusDays(4),
+                    UUID.fromString("00af095e-7334-4e93-a858-abf3aa5f1871"),
+                    UUID.fromString("d45608e2-a8eb-4e78-a49c-9062763df011"), // 실제 회원 ID 넣어야 함
+                    UUID.fromString("69a3da0c-6bf3-4d0c-b093-e594d31a2456"),
+                    "PLAY"
             );
 
             Payment newPayment3 = Payment
@@ -157,14 +157,14 @@ public class Init {
             em.persist(ticket3);
 
             Ticket ticket4 = Ticket.createTicket(
-                    "콘서트<음악의 날>",
-                    "예술의 전당 콘서트홀",
+                    "청소년극<#버킷리스트>",
+                    "국립극단 소극장 판",
                     LocalDateTime.of(2023, 12, 22, 19, 30),
-                    "의자유형4", 4, "회원명4", "987654321", 150, LocalDateTime.now().plusDays(4),
-                    UUID.fromString("57de4ada-12b8-4dd9-86b3-23a3bd8dc20d"),
-                    UUID.fromString("57de4ada-12b8-4dd9-86b3-23a3bd8dc20d"),
-                    UUID.fromString("57de4ada-12b8-4dd9-86b3-23a3bd8dc20d"),
-                    "무대유형4"
+                    "VIP", 1, "홍길동", "987654321", 99000, LocalDateTime.now().plusDays(4),
+                    UUID.fromString("00af095e-7334-4e93-a858-abf3aa5f1871"),
+                    UUID.fromString("d45608e2-a8eb-4e78-a49c-9062763df011"), // 실제 회원 ID 넣어야 함
+                    UUID.fromString("69a3da0c-6bf3-4d0c-b093-e594d31a2456"),
+                    "PLAY"
             );
 
             Payment newPayment4 = Payment
@@ -175,14 +175,14 @@ public class Init {
             em.persist(ticket4);
 
             Ticket ticket5 = Ticket.createTicket(
-                    "뮤지컬<레미제라블>",
-                    "대학로 블루스퀘어 뮤지컬극장",
+                    "청소년극<#버킷리스트>",
+                    "국립극단 소극장 판",
                     LocalDateTime.of(2023, 12, 26, 19, 30),
-                    "의자유형5", 2, "회원명5", "987654321", 90, LocalDateTime.now().plusDays(5),
-                    UUID.fromString("ab3a3754-8b95-4834-9386-1376960b2a4b"),
-                    UUID.fromString("ab3a3754-8b95-4834-9386-1376960b2a4b"),
-                    UUID.fromString("ab3a3754-8b95-4834-9386-1376960b2a4b"),
-                    "무대유형5"
+                    "VIP", 1, "홍길동", "987654321", 99000, LocalDateTime.now().plusDays(4),
+                    UUID.fromString("00af095e-7334-4e93-a858-abf3aa5f1871"),
+                    UUID.fromString("d45608e2-a8eb-4e78-a49c-9062763df011"), // 실제 회원 ID 넣어야 함
+                    UUID.fromString("69a3da0c-6bf3-4d0c-b093-e594d31a2456"),
+                    "PLAY"
             );
 
             Payment newPayment5 = Payment

@@ -4,6 +4,7 @@
     import com.example.thicketticket.enumerate.Status;
     import jakarta.persistence.*;
     import lombok.*;
+    import org.springframework.cglib.core.Local;
 
     import java.time.LocalDateTime;
     import java.util.UUID;
@@ -48,6 +49,7 @@
 
         @Column
         private int latency;
+
         @Column(nullable = false)
         private LocalDateTime cancelDate;
 
@@ -60,6 +62,9 @@
 
         @Column
         private Long cts;
+
+        @Column
+        private LocalDateTime arriveServer;
 
         @Column(nullable = false)
         private UUID stageId;

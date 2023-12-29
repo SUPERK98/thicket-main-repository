@@ -1,16 +1,37 @@
-import {useEffect, useState} from "react";
-import ReactDOM from 'react-dom';
-import 'react-calendar/dist/Calendar.css';
+import { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
+import "react-calendar/dist/Calendar.css";
 import moment from "moment";
 import "react-datepicker/dist/react-datepicker.css";
 import {
-    Wrapper, MarginTop, Container, Scroll,
-    ShowMain, ShowSide, SideTop, SideMarginTop, SideMargin, SideFont, SideBottom,
-    PostImg, PostDetailImg, PostInfo,
-    H1, Th, Th1, Th2, Td1, Td2, LightGrayLine,
-    StyledCalendar, ButtonList, ChoiceDiv, DisabledSideBottom,
+    ButtonList,
+    ChoiceDiv,
+    Container,
+    DisabledSideBottom,
+    H1,
+    LightGrayLine,
+    MarginTop,
+    PostDetailImg,
+    PostImg,
+    PostInfo,
+    Scroll,
+    ShowMain,
+    ShowSide,
+    SideBottom,
+    SideFont,
+    SideMargin,
+    SideMarginTop,
+    SideTop,
+    StyledCalendar,
+    Td1,
+    Td2,
+    Th,
+    Th1,
+    Th2,
+    Wrapper,
 } from "../../assets/css/setting/MainStyleCSS";
 import Reservation from "../../payment/pages/Reservation";
+import {useNavigate} from "react-router-dom";
 
 function ShowDetailPage() {
 
@@ -25,7 +46,13 @@ function ShowDetailPage() {
     const [selectedQuantity, setSelectedQuantity] = useState(1); // 갯수 기본 1개
     const [totalAmount, setTotalAmount] = useState(0);  // 선택된 좌석의 총 금액을 저장할 새로운 상태
     const [serverTime, setServerTime] = useState(Date);
-
+    const [reservationWindow, setReservationWindow] = useState(null);
+    const navigate = useNavigate();
+    function calculateThreeDaysAgo(selectedDate, selectedTime) {
+        const selectedDateTime = new Date(`${selectedDate} ${selectedTime}`);
+        selectedDateTime.setDate(selectedDateTime.getDate() - 3);
+        return selectedDateTime;
+    }
     // 공연 상세 가져오기
     useEffect(() => { // 공연정보 (SELECT * FROM thicket_stage.stage; → id)
         // 현재 페이지의 url에서 공연 UUID 가져오기
@@ -34,23 +61,20 @@ function ShowDetailPage() {
         fetch(`/thicket-show/shows/stagedetail/${showId}`)
             .then(response => response.json())
             .then(data => {
-                console.log("Show Detail Data:", data);
                 setShow(data);
             })
             .then(fetch(`/thicket-show/tickets/all/${showId}`)
                 .then(response => response.json())
                 .then(data => {
                     setTimes(data);
+                    // 최초 렌더링 시에 가격 정보를 가져오도록 설정
+                    if (data.length > 0) {
+                        getChairInfo(data[0].stageId);
+                    }
                 }));
         setInterval(dirtyCheck, 500);
     }, []);
-    function calculateThreeDaysAgo(selectedDate, selectedTime) {
-        const selectedDateTime = new Date(`${selectedDate} ${selectedTime}`);
-        selectedDateTime.setDate(selectedDateTime.getDate() - 3);
-        return selectedDateTime;
-    }
 
-    // 좌석정보 가져오기 회차정보 클릭시
     const getChairInfo = (stageId) => {
         fetch(`/thicket-show/chairs/all/${stageId}`)
             .then(response => response.json())
@@ -59,126 +83,153 @@ function ShowDetailPage() {
             })
     }
 
-    // 데이터 타임 형변환
+  // 데이터 타임 형변환
     const formatDateString = (dateString) => {
-        const date = new Date(dateString);
-        return date.toLocaleDateString();
+    const date = new Date(dateString);
+    return date.toLocaleDateString();
     };
 
-    // 날짜 변경시 초기화
-    const handleDateChange = (date) => {
-        setSelectedDate(date);
+  // 날짜 변경시 초기화
+  const handleDateChange = (date) => {
+    setSelectedDate(date);
 
-        // 시간, 좌석, 수량을 초기화
-        setSelectedTime(null);
-        setSelectedChair(null);
-        setSelectedQuantity(1);
+    // 시간, 좌석, 수량을 초기화
+    setSelectedTime(null);
+    setSelectedChair(null);
+    setSelectedQuantity(1);
 
-        // 수량 리스트 초기화
-        const quantitySelect = document.getElementById('quantitySelect');
-        if (quantitySelect) {
-            quantitySelect.value = 1;
-        }
+    // 수량 리스트 초기화
+    const quantitySelect = document.getElementById("quantitySelect");
+    if (quantitySelect) {
+      quantitySelect.value = 1;
+    }
 
-        // 해당 날짜에 맞는 시간 데이터 필터링
-        const filtered = times
-            .filter((time) => moment(time.date).isSame(date, 'day'))
-            .map((time) => ({
-                ...time,
-                time: moment(time.time, 'HH:mm:ss').format('HH:mm'),
-            }));
-        console.log(filtered);
-        setFilteredTimes(filtered);
-    };
+    // 해당 날짜에 맞는 시간 데이터 필터링
+    const filtered = times
+      .filter((time) => moment(time.date).isSame(date, "day"))
+      .map((time) => ({
+        ...time,
+        time: moment(time.time, "HH:mm:ss").format("HH:mm"),
+      }));
+    console.log(filtered);
+    setFilteredTimes(filtered);
+  };
 
-    // 시간 선택
-    const handleTimeSelect = (time) => {
-        setSelectedTime(time);
-    };
+  // 시간 선택
+  const handleTimeSelect = (time) => {
+    setSelectedTime(time);
+  };
 
-    // 좌석 선택
-    const handleChairSelect = (chair) => {
-        setSelectedChair(chair);
-    };
+  // 좌석 선택
+  const handleChairSelect = (chair) => {
+    setSelectedChair(chair);
+  };
 
-    // 수량 선택
-    const handleQuantityChange = (event) => {
-        setSelectedQuantity(parseInt(event.target.value, 10));
-    };
+  // 수량 선택
+  const handleQuantityChange = (event) => {
+    setSelectedQuantity(parseInt(event.target.value, 10));
+  };
 
-    const dirtyCheck = async () => {
-        await fetch('/thicket-show/shows/serverTime')
-        .then(response => response.text())
-        .then(data => {
-            setServerTime(new Date(data));
+  const dirtyCheck = async () => {
+    await fetch("/thicket-show/shows/serverTime")
+      .then((response) => response.text())
+      .then((data) => {
+        setServerTime(new Date(data));
+      });
+  };
+
+  // 이하 예매 로직
+  // 3일 전의 날짜를 계산하는 함수
+  function calculateThreeDaysAgo(dateTimeString) {
+    const currentDate = new Date(dateTimeString);
+    currentDate.setDate(currentDate.getDate() - 3);
+    return currentDate;
+  }
+
+  const handleReservationClick = () => {
+    if (selectedDate && selectedTime && selectedChair) {
+      const reservationData = {
+        stageName: show.name,
+        date: new Date(),
+        place: show.place,
+        chairType: chairs[0].chairType,
+        count: selectedQuantity,
+        price: chairs[0].price,
+        cancelDate: calculateThreeDaysAgo(
+          moment(selectedDate).format("YYYY-MM-DD"),
+          selectedTime.time
+        ),
+        stageId: show.stageId,
+        chairId: chairs[0].chairId,
+        stageType: show.stageType,
+        latency: new Date() - serverTime,
+      };
+      console.log(reservationData);
+      fetch("/thicket-ticket/reservations/ticket", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: localStorage.getItem("token"),
+        },
+        body: JSON.stringify(reservationData),
+      })
+        .then((response) => {
+          if (!response.ok) {
+            throw new Error("네트워크 응답이 올바르지 않습니다");
+          }
+          return response.text(); // 텍스트로 응답 받기
         })
-    };
-   
-    // 이하 예매 로직
-    const [reservationWindow, setReservationWindow] = useState(null);
-    
-    // 3일 전의 날짜를 계산하는 함수    
-    function calculateThreeDaysAgo(dateTimeString) {
-        const currentDate = new Date(dateTimeString);
-        currentDate.setDate(currentDate.getDate() - 3);
-        return currentDate;
-    }   
+        .then((result) => {
+          // 여기서 result는 성공 또는 실패 문자열입니다.
+          console.log("Reservation result:", result);
+          // 성공 또는 실패에 따른 처리를 추가하세요.
+          // 성공한 경우의 처리
+          // 선택된 좌석의 가격과 수량을 기반으로 총 금액 계산
+          const chairPrice = selectedChair.price || 0;  // 가격이 selectedChair에 있는 경우를 가정합니다.
+          const calculatedTotalAmount = chairPrice * selectedQuantity;
+          setTotalAmount(calculatedTotalAmount);
 
+          const width = Math.floor(window.innerWidth * 0.7);
+          const height = Math.floor(window.innerHeight * 0.8);
+          const left = Math.floor((window.innerWidth - width) / 2);
+          const top = Math.floor((window.innerHeight - height) / 2);
 
-    const handleReservationClick = () => {
-     
-        if (selectedDate && selectedTime && selectedChair) {
-            const reservationData = {
-                stageName: show.name,
-                date: new Date(),
-                place: show.place,
-                chairType: chairs[0].chairType,
-                count: chairs[0].count,
-                price: chairs[0].price,
-                cancelDate:calculateThreeDaysAgo(
-                    moment(selectedDate).format('YYYY-MM-DD'),
-                    selectedTime.time
-                ),
-                stageId: show.stageId,
-                chairId: chairs[0].chairId,
-                stageType: show.stageType,
-                latency: (new Date()-serverTime),
-            };
-            console.log(reservationData);
-            fetch('/thicket-ticket/reservations/ticket', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    "Authorization": localStorage.getItem('token')
-                },
-                body: JSON.stringify(reservationData),
-            })
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('네트워크 응답이 올바르지 않습니다');
-                }
-                return response.text(); // 텍스트로 응답 받기
-            })
-            .then(result => {
-                // 여기서 result는 성공 또는 실패 문자열입니다.
-                console.log('Reservation result:', result);
-                // 성공 또는 실패에 따른 처리를 추가하세요.
-                if (result === '성공') {
-                    // 성공한 경우의 처리
-                    alert('예매 대기중 입니다.')
-                } else {
-                    // 실패한 경우의 처리
-                }
-            })
-            .catch(error => {
-                console.error('예약 중 오류 발생:', error);
-                alert('예약 중 오류가 발생했습니다. 다시 시도해주세요.');
-            });
-        } else {
-            alert('날짜, 시간 및 좌석을 선택하세요.');
-        }
-    };
-    
+          const windowFeatures = `width=${width},height=${height},left=${left},top=${top}`;
+
+          const paymentWindow = window.open('', '_blank', windowFeatures);
+
+          const closeWindowCallback = () => {
+              paymentWindow.close();
+              navigate('/mypage');
+          };
+
+          if (paymentWindow) {
+              // 선택된 좌석을 Reservation 컴포넌트로 프롭스로 전달
+              const reservationContainer = paymentWindow.document.createElement('div');
+              paymentWindow.document.body.appendChild(reservationContainer);
+
+              ReactDOM.render(
+                  <Reservation selectedChair={selectedChair}
+                               selectedTime={selectedTime}
+                               selectedDate={selectedDate}
+                               selectedQuantity={selectedQuantity}
+                               totalAmount={totalAmount}
+                               onCancel={closeWindowCallback}
+                  />,
+                  reservationContainer
+              );
+              } else {
+                  alert('팝업 창이 차단되었거나 오류가 발생했습니다. 팝업 차단을 해제해주세요.');
+              }
+            alert("예매 대기중 입니다.");
+        }).catch((error) => {
+          console.error("예약 중 오류 발생:", error);
+          alert("예약 중 오류가 발생했습니다. 다시 시도해주세요.");
+        });
+    } else {
+      alert("날짜, 시간 및 좌석을 선택하세요.");
+    }
+  };
 
     useEffect(() => {
         // reservationWindow이 변경되면 Reservation 컴포넌트를 렌더링
@@ -186,6 +237,13 @@ function ShowDetailPage() {
             ReactDOM.render(<Reservation />, reservationWindow);
         }
     }, [reservationWindow]);
+    const waitTime = (number) => {
+        const wTime = new Date(number);
+
+        return Math.floor(wTime / (1000 * 60 * 60))
+            + "시간 " + Math.floor((wTime / (1000 * 60)) % 60)
+            + "분 " + Math.floor((wTime / 1000) % 60) + "초";
+    };
     return (
         <Wrapper>
             <MarginTop>
@@ -215,14 +273,14 @@ function ShowDetailPage() {
                                         </tr>
                                         <tr>
                                             <Th1>가격</Th1>
-                                            {Array.isArray(chairs) && chairs.length > 0 && chairs
+                                            {Array.isArray(chairs) && chairs.length > 0 ? (chairs
                                                 .sort((a, b) => b.price - a.price) // 가격을 내림차순으로 정렬
                                                 .map(chair => (
                                                     <tr key={chair.chairUuid}>
                                                         <Th2>{chair.chairType}석</Th2>
                                                         <Td2>{Number(chair.price).toLocaleString()}원</Td2>
                                                     </tr>
-                                                ))}
+                                                ))) : (<Td2>가격 정보가 없습니다.</Td2>)}
                                         </tr>
                                     </table>
                                 </PostInfo>
@@ -250,12 +308,24 @@ function ShowDetailPage() {
                                         }}
                                         value={value}
                                         locale="ko"
-                                        formatDay={(locale, date) => moment(date).format('D')}
+                                        formatDay={(locale, date) => {
+                                            const formattedDate = moment(date).format('D');
+                                            const hasShows = times.some(time => moment(time.date).isSame(date, 'day'));
+                                            return (
+                                                <div
+                                                    style={{
+                                                        opacity: hasShows ? 1 : 0.5,
+                                                        color: hasShows ? 'black' : 'lightgray',
+                                                    }}
+                                                >
+                                                    {formattedDate}
+                                                </div>
+                                            );
+                                        }}
                                         showNeighboringMonth={false}
-                                        calendarType="gregory" // 일요일부터 시작
-                                        minDate={new Date(show.stageOpen)} // Set the minimum date
-                                        // minDate={new Date()} // 실제 로직에서는 스테이지 오픈 대신 오늘 날짜로 사용
-                                        maxDate={new Date(show.stageClose)} // Set the maximum date
+                                        calendarType="gregory"
+                                        minDate={new Date(show.stageOpen)}
+                                        maxDate={new Date(show.stageClose)}
                                     />
                                 </SideMarginTop>
                                 <LightGrayLine />
@@ -263,19 +333,21 @@ function ShowDetailPage() {
                                     <SideFont>회차</SideFont>
                                     {filteredTimes.length > 0 ? (
                                         <ButtonList>
-                                            {filteredTimes.map((time, index) => (
-                                                <ChoiceDiv
-                                                    key={index}
-                                                    selected={time === selectedTime}
-                                                    selectedTime={selectedTime}
-                                                    onClick={() => {
-                                                        handleTimeSelect(time)
-                                                        getChairInfo(time.stageId)
-                                                    }}
-                                                >
-                                                    {index + 1}회 {time.time}
-                                                </ChoiceDiv>
-                                            ))}
+                                            {filteredTimes
+                                                .sort((a, b) => a.time.localeCompare(b.time)) // Sort by time in ascending order
+                                                .map((time, index) => (
+                                                    <ChoiceDiv
+                                                        key={index}
+                                                        selected={time === selectedTime}
+                                                        selectedTime={selectedTime}
+                                                        onClick={() => {
+                                                            handleTimeSelect(time)
+                                                            getChairInfo(time.stageId)
+                                                        }}
+                                                    >
+                                                        {index + 1}회 {time.time}
+                                                    </ChoiceDiv>
+                                                ))}
                                         </ButtonList>
                                     ) : (
                                         <div style={{marginTop:'5px'}}>
@@ -330,7 +402,9 @@ function ShowDetailPage() {
                             </SideTop>
                             {new Date(show.ticketOpen) >= serverTime ? (
                                 <DisabledSideBottom>
-                                    예매하기
+                                    {
+                                        waitTime(new Date(show.ticketOpen) - serverTime)
+                                    }
                                 </DisabledSideBottom>
                             ) : (
                                 <SideBottom onClick={handleReservationClick}>

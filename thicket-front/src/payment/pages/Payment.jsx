@@ -296,7 +296,7 @@ function Payment({ selectedChair, selectedTime, selectedDate, selectedQuantity }
                     }}
                 ></div>
                 <div style={{ padding: '10px', maxHeight: '80vh', width: '30%', textAlign: 'left'}}>
-                    <p style={{padding: '6px', backgroundColor: 'lightgray', borderBottom: '2px solid darkgray', borderRadius: '10px', marginBottom: '1px'}}> 예약 번호 | T123456789 (총 2매)</p>
+                    <p style={{padding: '6px', backgroundColor: 'lightgray', borderBottom: '2px solid darkgray', borderRadius: '10px', marginBottom: '1px'}}>　</p>
                     <table>
                         <tbody>
                         <tr style={{height: '150px'}}>

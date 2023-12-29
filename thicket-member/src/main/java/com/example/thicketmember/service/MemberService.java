@@ -7,10 +7,12 @@ import com.example.thicketmember.dto.response.ResponseMemberDtoForAdmin;
 import org.springframework.http.HttpHeaders;
 
 import java.util.List;
+import java.util.UUID;
 
 public interface MemberService {
     Member signup(RequestMemberSignupDto dto);
     HttpHeaders signin(RequestMemberSigninDto dto);
+    void logout(UUID uuid);
     ResponseMemberDto findMember(String id);
     List<ResponseMemberDtoForAdmin> findMembers();
     void changePassword(String id, RequestChangePasswordDto dto);

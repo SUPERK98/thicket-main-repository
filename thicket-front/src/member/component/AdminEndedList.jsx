@@ -1,6 +1,22 @@
 import {Container, H1, Table, TableHeaderRow, Td, TdNotCenter} from '../../assets/css/setting/admin/StylesOfList';
+import React, {useEffect, useState} from "react";
 
 export const AdminEndedList = () => {
+    const [showList, setShowList] = useState([]);
+    useEffect(() => {
+        const requestOptions = {
+            method: 'GET',
+            headers:{
+                "Authorization": localStorage.getItem('token')
+            }
+        };
+
+        fetch("/thicket-show/shows/ended", requestOptions)
+            .then(response => response.json())
+            .then(result => {
+                setShowList(result);
+            });
+    }, [])
     return (
         <Container>
             <div>
@@ -8,16 +24,19 @@ export const AdminEndedList = () => {
                 <Table>
                     <tbody>
                     <TableHeaderRow />
-                    <tr>
-                        <Td>1</Td>
-                        <Td>콘서트</Td>
-                        <TdNotCenter>
-                            임영웅 콘서트 IM HERO TOUR 2023 - 부산
-                        </TdNotCenter>
-                        <Td>공연종료</Td>
-                        <Td>2023.11.08.</Td>
-                        <Td>2023.11.10.</Td>
-                    </tr>
+                    {Array.isArray(showList) ? showList.map((value, index) => {
+                        return (
+                            <tr key={index}>
+                                <Td>{index}</Td>
+                                <Td>{value.stageType}</Td>
+                                <TdNotCenter>
+                                    {value.name}
+                                </TdNotCenter>
+                                <Td>{value.stageStatus}</Td>
+                                <Td>{value.stageOpen}</Td>
+                                <Td>{value.stageClose}</Td>
+                            </tr>
+                        )}):(<tr> <Td colSpan={6}>없음</Td> </tr>)}
                     </tbody>
                 </Table>
             </div>

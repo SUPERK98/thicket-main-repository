@@ -3,6 +3,7 @@ import {FaSearch} from "react-icons/fa";
 import HeaderMenu from "./HeaderMenu";
 import {useEffect, useState} from "react";
 import {useNavigate} from "react-router-dom";
+import {HttpStatusCode} from "axios";
 
 
 const LogoHeader = styled.header`
@@ -52,6 +53,21 @@ export default function Header() {
 
     const navigate = useNavigate(); // useHistory 대신 useNavigate 사용
     const [query, setQuery] = useState("");
+
+    const logoutHandler = () => {
+        // 로그아웃 로직을 구현합니다. 예를 들어, localStorage에서 토큰을 제거합니다.
+        fetch("/thicket-member/members/logout",{
+            method: 'GET',
+            headers: {
+                "Authorization": localStorage.getItem('token')
+            }
+        }).then(response => {
+            if (response.status === HttpStatusCode.Ok) {
+                localStorage.removeItem('token');
+            }
+        })
+        localStorage.removeItem('token');
+    };
 
     const handleSearch = () => {
         if (query) {
@@ -106,9 +122,7 @@ export default function Header() {
                             {isLoggedIn ? (
                                 <>
                                     <HeaderMenu name={'마이페이지'} link={'/mypage'} />
-                                    <HeaderMenu name={'로그아웃'} link={'/login'} onClick={() => {
-                                        localStorage.removeItem('token');
-                                    }} />
+                                    <HeaderMenu name={'로그아웃'} link={'/login'} onClick={logoutHandler}/>
                                 </>
                             ) : (
                                 <>

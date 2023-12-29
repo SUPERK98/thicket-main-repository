@@ -14,7 +14,9 @@ const Wrapper = styled.a`
   background-color: white;
 
   &:hover {
-    background-color: lightgray; /* 색상 */
+    background-color: #ff8989; /* 색상 */
+    color: white;
+    border: #ff8989 solid 1px;
     cursor: pointer;
   }
 `

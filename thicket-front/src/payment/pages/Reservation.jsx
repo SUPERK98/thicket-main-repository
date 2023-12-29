@@ -3,7 +3,7 @@ import Payment from "./Payment";
 import moment from "moment";
 import MyPage from "../../member/pages/MyPage";
 
-function Reservation({ selectedChair, selectedTime, selectedDate, selectedQuantity }) {
+function Reservation({ selectedChair, selectedTime, selectedDate, selectedQuantity, onCancel }) {
 
     const [isPaymentVisible, setPaymentVisible] = useState(false);
     const [isGoToMypage, setGoToMypage] = useState(false);
@@ -49,21 +49,15 @@ function Reservation({ selectedChair, selectedTime, selectedDate, selectedQuanti
     };
 
     const handleGoToMypageClick = () => {
+        if (onCancel) {
+            onCancel(); // Invoke the onCancel callback function
+        }
         setGoToMypage(true);
     };
-    if(isGoToMypage){
+
+    if (isGoToMypage) {
         return <MyPage />;
     }
-
-    const handlePaymentClick = () => {
-        // selectedDate, selectedTime, selectedChair가 null인 경우에만 alert를 표시합니다.
-        if (!selectedDate || !selectedTime || !selectedChair) {
-            alert('결제를 진행하기 전에 날짜, 시간 및 좌석을 선택하세요.');
-            return; // 이후 로직을 진행하지 않도록 함수를 종료합니다.
-        }
-        // "지금 결제하기" 버튼이 클릭되면 Payment 컴포넌트를 보이도록 설정
-        setPaymentVisible(true);
-    };
 
     if (isPaymentVisible) {
         return <Payment
@@ -198,7 +192,7 @@ function Reservation({ selectedChair, selectedTime, selectedDate, selectedQuanti
                     }}
                 ></div>
                 <div style={{ padding: '10px', maxHeight: '80vh', width: '30%', textAlign: 'left'}}>
-                    <p style={{padding: '6px', backgroundColor: 'lightgray', borderBottom: '1px solid darkgray', borderRadius: '10px', marginBottom: '1px'}}> 예약 번호 | T123456789 (총 2매)</p>
+                    <p style={{padding: '6px', backgroundColor: 'lightgray', borderBottom: '1px solid darkgray', borderRadius: '10px', marginBottom: '1px'}}>　</p>
                     <table>
                         <tbody>
                         <tr style={{height: '150px'}}>
@@ -218,27 +212,6 @@ function Reservation({ selectedChair, selectedTime, selectedDate, selectedQuanti
                     <br />
                     <br />
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                        <button
-                            onClick={handlePaymentClick}
-                            style={{
-                                padding: '10px 12px',
-                                backgroundColor: '#ff9898',
-                                color: '#ffffff',
-                                border: 'none',
-                                borderRadius: '12px',
-                                width: '250px',
-                                height: '45px',
-                                fontSize: '15px',
-                                cursor: 'pointer',
-                            }}
-                            onMouseOver={(e) => {
-                                e.target.style.backgroundColor = '#ff7b7b';
-                            }}
-                            onMouseOut={(e) => {
-                                e.target.style.backgroundColor = '#ff9898';
-                            }}
-                        >지금 결제하기</button>
-                        <br />
                         <button
                             onClick={handleGoToMypageClick}
                             style={{

@@ -7,10 +7,11 @@ const Wrapper = styled.div`
   display: flex; /* Flex 컨테이너로 설정 */
   align-items: center; /* 수직 가운데 정렬 */
   justify-content: center; /* 수평 가운데 정렬 */
-  border: black solid 1px;
+  border: lightgray solid 1px;
   border-radius: 5px;
   text-align: center;
-  background-color: beige;
+  background-color: #ff8989;
+  color: white;
   &:hover {
     background-color: lightgray;
     cursor: pointer;

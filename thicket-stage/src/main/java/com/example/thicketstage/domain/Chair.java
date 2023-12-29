@@ -4,6 +4,7 @@ import com.example.thicketstage.TimeStamp;
 import com.example.thicketstage.dto.request.RequestUpdateChairDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -34,7 +35,7 @@ public class Chair extends TimeStamp {
     private StageStart stageStart;
 
     // 연관관계 메서드
-    public void foreignKey(StageStart stageStart){
+    public void foreignKey(StageStart stageStart) {
         this.stageStart = stageStart;
         stageStart.getChair().add(this);
     }
@@ -55,9 +56,9 @@ public class Chair extends TimeStamp {
         return chair;
     }
 
-// 좌석 정보 수정은 추후 고도화 구현시 구현 예정
-    public void updateChair(RequestUpdateChairDto UpdateChairDto){
-        for (RequestUpdateChairDto.UpdateChairDto chairDto : UpdateChairDto.getUpdateChairDtos()){
+    // 좌석 정보 수정은 추후 고도화 구현시 구현 예정
+    public void updateChair(RequestUpdateChairDto UpdateChairDto) {
+        for (RequestUpdateChairDto.UpdateChairDto chairDto : UpdateChairDto.getUpdateChairDtos()) {
             this.chairType = chairDto.getChairType();
             this.count = chairDto.getCount();
             this.price = chairDto.getPrice();
@@ -67,7 +68,7 @@ public class Chair extends TimeStamp {
     }
 
     public void deleteChair() {
-        if(stageStart != null) {
+        if (stageStart != null) {
             stageStart.getChair().remove(this);
         }
     }
