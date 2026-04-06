@@ -47,7 +47,7 @@ Thicket addresses this unfair structure by measuring the **Round Trip Time (RTT)
 
 | Item | Details |
 |------|---------|
-| Period | Oct 2023 – Jan 2024 (~4 months) |
+| Period | Nov 2023 – Dec 2023 (~2 months) |
 | Team | 4 members (Lead: Kang-seok Oh) |
 | Target Performance | **1,600 TPS** with 3 Ticket Service instances |
 | My Responsibilities | Ticket · Batch · Loader services, CTS algorithm, Kafka topic design, load testing |
@@ -254,10 +254,7 @@ Offset           = t1 - t0 - Round-trip delay / 2
 ## 📅 Timeline
 
 ```
-Oct 2023  ─── Planning, system design, flow chart
-Nov 2023  ─── MSA structure, basic CRUD for each service
-Dec 2023  ─── Kafka pipeline, CTS algorithm, sort logic
-Jan 2024  ─── Load testing, refactoring, documentation & presentation
+Nov 2023  ─── Planning, system design, flow chart, MSA structure, basic CRUD for each service, Kafka pipeline, CTS algorithm, sort logic, load testing, refactoring, documentation & presentation
 ```
 
 ---
