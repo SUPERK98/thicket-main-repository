@@ -128,26 +128,19 @@ function ShowDetailPage() {
     setSelectedQuantity(parseInt(event.target.value, 10));
   };
 
-  const dirtyCheck = async () => {
-    await fetch("/thicket-show/shows/serverTime")
-      .then((response) => response.text())
-      .then((data) => {
-        setServerTime(new Date(data));
-      });
+const dirtyCheck = async () => {
+  const start = Date.now();                          // 요청 직전 클라이언트 시각
+  await fetch("/thicket-show/shows/serverTime");     // 서버 응답 대기
+  const rtt = Date.now() - start;                    // 왕복 시간 측정
 
-      let eventTime = serverTime;
-      fetch("/thicket-show/shows/serverTime")
-          .then(res => res.text())
-          .then(data => {
-              let latency = new Date(data)-eventTime;
-              sortedLatencies.push(latency);
-          });
+  sortedLatencies.push(rtt);
+  sortedLatencies.sort((a, b) => a - b);             // sort 추가
 
-      let middle = Math.floor(sortedLatencies.length / 2);
-      setMedianLatency(sortedLatencies.length % 2 !== 0 ?
-          sortedLatencies[middle] :
-          (sortedLatencies[middle - 1] + sortedLatencies[middle]) / 2);
-  };
+  let middle = Math.floor(sortedLatencies.length / 2);
+  setMedianLatency(sortedLatencies.length % 2 !== 0
+    ? sortedLatencies[middle]
+    : (sortedLatencies[middle - 1] + sortedLatencies[middle]) / 2);
+};
 
 
   // 이하 예매 로직
